@@ -11,32 +11,32 @@
                                       \
     return false;
 
-bool int_le(const void *a, const void *b)
+bool int_le(COMPARE_FUNC_ARGS)
 {
     COMPARE(a, b, <=, int)
 }
 
-bool int_ge(const void *a, const void *b)
+bool int_ge(COMPARE_FUNC_ARGS)
 {
     COMPARE(a, b, >=, int)
 }
 
-bool float_le(const void *a, const void *b)
+bool float_le(COMPARE_FUNC_ARGS)
 {
     COMPARE(a, b, <=, float)
 }
 
-bool float_ge(const void *a, const void *b)
+bool float_ge(COMPARE_FUNC_ARGS)
 {
     COMPARE(a, b, >=, float)
 }
 
-bool double_le(const void *a, const void *b)
+bool double_le(COMPARE_FUNC_ARGS)
 {
     COMPARE(a, b, <=, double)
 }
 
-bool double_ge(const void *a, const void *b)
+bool double_ge(COMPARE_FUNC_ARGS)
 {
     COMPARE(a, b, >=, double)
 }
