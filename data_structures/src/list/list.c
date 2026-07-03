@@ -1,15 +1,10 @@
 #include "ds/list.h"
+#include "../assert.h"
 #include "../utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-static void out_of_bounds(void)
-{
-    int i = fprintf(stderr, "ERROR: Index Out of Bounds.\n");
-    exit(EXIT_FAILURE);
-}
 
 static void List_Resize(List *self, size_t resize)
 {
@@ -63,32 +58,42 @@ List List_Load(void *array, size_t size, size_t data_size)
     return new;
 }
 
+List List_NewSlice(List *list, size_t start_index, size_t end_index)
+{
+    ASSERT(start_index <= end_index, "start shoulb be less or equal to end");
+
+    ASSERT(start_index < list->size, "Index Out of Bounds");
+    ASSERT(end_index < list->size, "Index Out of Bounds");
+
+    void *new_start = List_Get(list, start_index);
+
+    // Because we are dealing with indexes, we have to sum 1.
+    // If both end_index and start_index are equal, say to 3, than, 3 - 3 + 1 = 1.
+    const size_t new_size = end_index - start_index + 1;
+
+    List new = List_Load(new_start, new_size, list->data_size);
+
+    return new;
+}
+
 void *List_Get(List *self, size_t index)
 {
-    if (index >= self->size)
-    {
-        out_of_bounds();
-    }
+    ASSERT(index < self->size, "Index Out of Bounds");
 
     return self->ptr + (index * self->data_size);
 }
 
 void List_Set(List *self, size_t index, void *value)
 {
-    if (index >= self->size)
-    {
-        out_of_bounds();
-    }
+    ASSERT(index < self->size, "Index Out of Bounds");
 
     memcpy(List_Get(self, index), value, self->data_size);
 }
 
 void List_Swap(List *self, size_t index_a, size_t index_b)
 {
-    if (index_a >= self->size || index_b >= self->size)
-    {
-        out_of_bounds();
-    }
+    ASSERT(index_a < self->size, "Index Out of Bounds");
+    ASSERT(index_b < self->size, "Index Out of Bounds");
 
     char temp[self->data_size];
     void *a = List_Get(self, index_a);
@@ -115,10 +120,7 @@ void List_Push(List *self, void *value)
 
 void List_Pop(List *self)
 {
-    if (self->size == 0)
-    {
-        out_of_bounds();
-    }
+    ASSERT(self->size != 0, "The list is empty");
 
     self->size -= 1;
 }
