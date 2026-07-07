@@ -48,6 +48,8 @@ function run_debug()
 function run_test()
 {
 	run_workflow "test"
+
+    link_compile_commands "debug"
 }
 
 function link_compile_commands()
