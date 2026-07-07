@@ -20,4 +20,5 @@ endfunction()
 
 add_unit_test(test_list data_structures data_structures/test_list.c)
 
+add_unit_test(test_insertion_sort algorithms algorithms/test_insertion_sort.c)
 # add_unit_test(test_sorting algorithms algorithms/test_sorting.c)
