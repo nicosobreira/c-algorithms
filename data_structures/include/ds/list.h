@@ -26,12 +26,7 @@ static inline size_t List_Size(List *self)
 
 static inline bool List_IsEmpty(List *self)
 {
-    if (self->size == 0)
-    {
-        return true;
-    }
-
-    return false;
+    return self->size == 0;
 }
 
 List List_Load(void *array, size_t size, size_t data_size);
