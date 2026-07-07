@@ -8,7 +8,8 @@
       "cacheVariables": {
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "BUILD_TESTING": "ON",
-        "BUILD_EXAMPLES": "ON"
+        "BUILD_EXAMPLES": "ON",
+        "ENABLE_CLANG_TIDY": "OFF"
       }
     },
     {
@@ -19,7 +20,7 @@
       }
     },
     {
-      "name": "analyse",
+      "name": "analyse-config",
       "inherits": "debug",
       "cacheVariables": {
         "ENABLE_CLANG_TIDY": "ON"
@@ -43,7 +44,7 @@
     },
     {
       "name": "build-analyse",
-      "configurePreset": "analyse"
+      "configurePreset": "analyse-config"
     },
     {
       "name": "build-release",
@@ -72,7 +73,7 @@
       "name": "analyse",
       "displayName": "Configure + Build + Static Analysis (Debug)",
       "steps": [
-        { "type": "configure", "name": "debug" },
+        { "type": "configure", "name": "analyse-config" },
         { "type": "build",     "name": "build-analyse" }
       ]
     },
