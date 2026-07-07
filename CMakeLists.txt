@@ -1,4 +1,9 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.25)
+
+option(BUILD_TESTING "Build unit tests" OFF)
+option(BUILD_EXAMPLES "Build examples" OFF)
+
+option(ENABLE_CLANG_TIDY "Run clang-tidy during the build" OFF)
 
 project(algorithms
   LANGUAGES C
@@ -35,9 +40,25 @@ target_compile_options(project_flags INTERFACE
   >
 )
 
+if(ENABLE_CLANG_TIDY)
+  find_program(CLANG_TIDY_EXE NAMES "clang-tidy")
+  if(CLANG_TIDY_EXE)
+    set(CMAKE_C_CLANG_TIDY "${CLANG_TIDY_EXE}")
+  else()
+    message(WARNING "clang-tidy não encontrado, ignorando ENABLE_CLANG_TIDY")
+  endif()
+endif()
+
 # =============================================================================
 
 add_subdirectory(data_structures)
 add_subdirectory(algorithms)
 
-add_subdirectory(examples)
+if(BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()
+
+if(BUILD_TESTING)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
