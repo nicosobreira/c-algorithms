@@ -1,10 +1,12 @@
 #include "ds/list.h"
-#include "../assert.h"
-#include "../utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "../assert.h"
+#include "../utils.h"
+#include "unsafe.h"
 
 static void List_Resize(List *self, size_t resize)
 {
@@ -81,6 +83,17 @@ void *List_Get(List *self, size_t index)
     ASSERT(index < self->size, "Index Out of Bounds");
 
     return self->ptr + (index * self->data_size);
+}
+
+void *List_GetCopy(List *self, size_t index)
+{
+    void *copy = malloc(self->data_size);
+
+    ASSERT(copy != NULL, "Out of Memory");
+
+    memcpy(copy, List_Get(self, index), self->data_size);
+
+    return copy;
 }
 
 void List_Set(List *self, size_t index, void *value)
