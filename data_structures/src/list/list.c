@@ -95,11 +95,10 @@ void List_Swap(List *self, size_t index_a, size_t index_b)
     ASSERT(index_a < self->size, "Index Out of Bounds");
     ASSERT(index_b < self->size, "Index Out of Bounds");
 
-    char temp[self->data_size];
+    void *temp = LIST_GET_STACK_COPY(self, index_a);
     void *a = List_Get(self, index_a);
     void *b = List_Get(self, index_b);
 
-    memcpy(temp, a, self->data_size);
     memcpy(a, b, self->data_size);
     memcpy(b, temp, self->data_size);
 }
