@@ -4,9 +4,11 @@
     {
       "name": "base",
       "hidden": true,
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "BUILD_TESTING": "ON",
+        "BUILD_EXAMPLES": "ON"
       }
     },
     {
@@ -17,10 +19,20 @@
       }
     },
     {
+      "name": "analyse",
+      "inherits": "debug",
+      "cacheVariables": {
+        "ENABLE_CLANG_TIDY": "ON"
+      }
+    },
+    {
       "name": "release",
       "inherits": "base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "BUILD_TESTING": "OFF",
+        "BUILD_EXAMPLES": "OFF"
       }
     }
   ],
@@ -30,8 +42,21 @@
       "configurePreset": "debug"
     },
     {
+      "name": "build-analyse",
+      "configurePreset": "analyse"
+    },
+    {
       "name": "build-release",
       "configurePreset": "release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-debug",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ],
   "workflowPresets": [
@@ -44,11 +69,28 @@
       ]
     },
     {
+      "name": "analyse",
+      "displayName": "Configure + Build + Static Analysis (Debug)",
+      "steps": [
+        { "type": "configure", "name": "debug" },
+        { "type": "build",     "name": "build-analyse" }
+      ]
+    },
+    {
       "name": "ship",
       "displayName": "Configure + Build (Release)",
       "steps": [
         { "type": "configure", "name": "release" },
         { "type": "build",     "name": "build-release" }
+      ]
+    },
+    {
+      "name": "test",
+      "displayName": "Configure + Build + Test (Debug)",
+      "steps": [
+        { "type": "configure", "name": "debug" },
+        { "type": "build", "name": "build-debug" },
+        { "type": "test", "name": "test-debug" }
       ]
     }
   ]
