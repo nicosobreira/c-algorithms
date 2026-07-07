@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.25)
 
 option(BUILD_TESTING "Build unit tests" OFF)
 option(BUILD_EXAMPLES "Build examples" OFF)
-
 option(ENABLE_CLANG_TIDY "Run clang-tidy during the build" OFF)
 
 project(algorithms
