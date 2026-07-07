@@ -1,5 +1,7 @@
 #include "algo/sorting.h"
 
+#include <stddef.h>
+
 #include "ds/list.h"
 
 static void fill_up(List *list, List *side, size_t list_start, size_t side_start)
@@ -21,7 +23,7 @@ static void merge(List *list, size_t p, size_t q, size_t r, CompareFunc cmp)
     List right = List_NewSlice(list, q, r - 1);
 
     // It isnt't possible to use sentinels (-inf or +inf) because the `cmp`
-    // function can compare values in diferent ways (less equal or greater equal)
+    // function can compare values in many ways (less equal or greater equal)
 
     size_t i = 0;
     size_t j = 0;
