@@ -11,6 +11,8 @@ typedef bool (*CompareFunc)(COMPARE_FUNC_ARGS);
 
 void merge_sort(List *p_list, CompareFunc cmp);
 
+void insertion_sort(List *list, CompareFunc cmp);
+
 // ----------------------------------------
 
 /// Less Equal
