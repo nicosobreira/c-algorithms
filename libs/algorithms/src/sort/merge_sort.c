@@ -14,7 +14,7 @@ static void fill_up(List *list, List *side, size_t list_start, size_t side_start
     }
 }
 
-static void merge(List *list, size_t p, size_t q, size_t r, CompareFunc cmp)
+static void merge(List *list, size_t p, size_t q, size_t r)
 {
     // The parameters `q` and `r` are the sizes of their subarrays.
     // Because `List_NewSlice` receives **indexes** we have to tranform them
@@ -29,7 +29,7 @@ static void merge(List *list, size_t p, size_t q, size_t r, CompareFunc cmp)
     size_t j = 0;
     for (size_t k = p; k < r; ++k)
     {
-        if (cmp(List_Get(&left, i), List_Get(&right, j)))
+        if (List_Compare_Less(list, List_Get(&left, i), List_Get(&right, j)))
         {
             List_Set(list, k, List_Get(&left, i));
 
@@ -56,7 +56,7 @@ static void merge(List *list, size_t p, size_t q, size_t r, CompareFunc cmp)
     }
 }
 
-static void sort(List *list, size_t p, size_t r, CompareFunc cmp)
+static void sort(List *list, size_t p, size_t r)
 {
     const size_t size = r - p;
 
@@ -69,15 +69,15 @@ static void sort(List *list, size_t p, size_t r, CompareFunc cmp)
     // Divide
     const size_t mid = p + (size / 2);
 
-    sort(list, p, mid, cmp); // Left
+    sort(list, p, mid); // Left
 
-    sort(list, mid, r, cmp); // Right
+    sort(list, mid, r); // Right
 
     // Conquer
-    merge(list, p, mid, r, cmp);
+    merge(list, p, mid, r);
 }
 
-void merge_sort(List *list, CompareFunc cmp)
+void merge_sort(List *list)
 {
-    sort(list, 0, List_Size(list), cmp);
+    sort(list, 0, List_Size(list));
 }

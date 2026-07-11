@@ -18,13 +18,13 @@ static void List_Resize(List *self, size_t resize)
     self->ptr = new;
 }
 
-List List_New(size_t size, size_t data_size)
+List List_New(size_t size, size_t data_size, Compare compare)
 {
-    List new = {0};
+    List new = {.data_size = data_size, .compare = compare};
+
     new.ptr = must_malloc(data_size * size);
 
     new.size = size;
-    new.data_size = data_size;
     new.capacity = size;
 
     return new;
@@ -34,15 +34,16 @@ void List_Free(List *self)
 {
     free(self->ptr);
 
-    *self = (List){0};
+    self->ptr = NULL;
+    self->size = 0;
+    self->capacity = 0;
 }
 
-List List_WithCapacity(size_t capacity, size_t data_size)
+List List_WithCapacity(size_t capacity, size_t data_size, Compare compare)
 {
-    List new;
+    List new = {.data_size = data_size, .compare = compare};
 
     new.size = 0;
-    new.data_size = data_size;
     new.capacity = capacity;
 
     new.ptr = must_malloc(new.data_size * new.capacity);
@@ -50,9 +51,9 @@ List List_WithCapacity(size_t capacity, size_t data_size)
     return new;
 }
 
-List List_Load(const void *array, size_t size, size_t data_size)
+List List_Load(const void *array, size_t size, size_t data_size, Compare compare)
 {
-    List new = List_New(size, data_size);
+    List new = List_New(size, data_size, compare);
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -75,7 +76,7 @@ List List_NewSlice(const List *list, size_t start_index, size_t end_index)
     // If both end_index and start_index are equal, say to 3, than, 3 - 3 + 1 = 1.
     size_t new_size = end_index - start_index + 1;
 
-    List new = List_Load(new_start, new_size, list->data_size);
+    List new = List_Load(new_start, new_size, list->data_size, list->compare);
 
     return new;
 }

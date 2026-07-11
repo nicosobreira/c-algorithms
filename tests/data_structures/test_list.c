@@ -12,7 +12,7 @@ void tearDown(void)
 static void test_list_load(void)
 {
     int expected[] = {1, 3, 108};
-    List list = List_Load(expected, 3, sizeof(int));
+    List list = List_Load_int(expected, 3);
 
     TEST_ASSERT_EQUAL_INT_ARRAY(expected, list.ptr, 3);
 
@@ -22,30 +22,35 @@ static void test_list_load(void)
 static void test_list_swap(void)
 {
     int array[] = {1, 3, 108};
-    List list = List_Load(array, 3, sizeof(int));
+    List list = List_Load_int(array, 3);
 
     List_Swap(&list, 1, 2);
 
     int expected[] = {1, 108, 3};
 
     TEST_ASSERT_EQUAL_INT_ARRAY(expected, list.ptr, 3);
+
+    List_Free(&list);
 }
 
 static void test_list_new_slice(void)
 {
     int array[] = {1, 3, 108};
-    List list = List_Load(array, 3, sizeof(int));
+    List list = List_Load_int(array, 3);
 
     List slice = List_NewSlice(&list, 0, 1);
 
     int expected[] = {1, 3};
 
     TEST_ASSERT_EQUAL_INT_ARRAY(expected, slice.ptr, 2);
+
+    List_Free(&list);
+    List_Free(&slice);
 }
 
 static void test_list_push_increases_size(void)
 {
-    List list = List_WithCapacity(2, sizeof(int));
+    List list = List_WithCapacity_int(2);
 
     int value = 42;
     List_Push(&list, &value);
@@ -59,7 +64,7 @@ static void test_list_push_increases_size(void)
 static void test_list_get_set(void)
 {
     int array[] = {1, 2, 3};
-    List list = List_Load(array, 3, sizeof(int));
+    List list = List_Load_int(array, 3);
 
     int new_value = 99;
     List_Set(&list, 1, &new_value);
@@ -71,7 +76,7 @@ static void test_list_get_set(void)
 
 static void test_list_is_empty(void)
 {
-    List list = List_WithCapacity(4, sizeof(int));
+    List list = List_WithCapacity_int(4);
     TEST_ASSERT_TRUE(List_IsEmpty(&list));
 
     int value = 1;

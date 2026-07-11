@@ -12,13 +12,20 @@ if(TARGET unity)
   set_target_properties(unity PROPERTIES C_CLANG_TIDY "")
 endif()
 
-function(add_unit_test name lib)
-  add_executable(${name} ${ARGN})
-  target_link_libraries(${name} PRIVATE ${lib} unity project_flags)
+function(add_ds_unit_test name file)
+  add_executable(${name} "data_structures/${file}")
+  target_link_libraries(${name} PRIVATE data_structures unity project_flags)
   add_test(NAME ${name} COMMAND ${name})
 endfunction()
 
-add_unit_test(test_list data_structures data_structures/test_list.c)
+function(add_algo_unit_test name file)
+  add_executable(${name} "algorithms/${file}")
+  target_link_libraries(${name} PRIVATE algorithms unity project_flags)
+  add_test(NAME ${name} COMMAND ${name})
+endfunction()
 
-add_unit_test(test_insertion_sort algorithms algorithms/test_insertion_sort.c)
-# add_unit_test(test_sorting algorithms algorithms/test_sorting.c)
+add_ds_unit_test(test_list test_list.c)
+
+add_algo_unit_test(test_insertion_sort sort/test_insertion_sort.c)
+
+add_algo_unit_test(test_binary_search search/test_binary_search.c)

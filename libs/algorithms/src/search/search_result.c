@@ -14,7 +14,7 @@ size_t SearchResult_Index(const SearchResult *self)
     return self->index;
 }
 
-void *SearchResult_PointerTo(const SearchResult *self)
+const void *SearchResult_PointerTo(const SearchResult *self)
 {
     ASSERT(self->did_find, "The result was unsuccessful, can't use the pointer to");
 

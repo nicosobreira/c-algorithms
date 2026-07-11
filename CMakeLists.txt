@@ -51,9 +51,11 @@ endif()
 
 # =============================================================================
 
+add_subdirectory(libs/utils)
+add_subdirectory(libs/compare)
+
 add_subdirectory(libs/data_structures)
 add_subdirectory(libs/algorithms)
-add_subdirectory(libs/utils)
 
 if(BUILD_EXAMPLES)
   add_subdirectory(examples)

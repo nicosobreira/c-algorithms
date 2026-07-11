@@ -15,6 +15,7 @@ target_include_directories(algorithms
 target_link_libraries(algorithms
   PUBLIC
     data_structures
+    compare
   PRIVATE
     utils
   INTERFACE

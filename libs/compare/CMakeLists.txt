@@ -1,10 +1,10 @@
-file(GLOB_RECURSE DATA_STRUCTURES_SOURCES CONFIGURE_DEPENDS
+file(GLOB_RECURSE COMPARE_SOURCES CONFIGURE_DEPENDS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
 )
 
-add_library(data_structures ${DATA_STRUCTURES_SOURCES})
+add_library(compare ${COMPARE_SOURCES})
 
-target_include_directories(data_structures
+target_include_directories(compare
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
@@ -12,9 +12,7 @@ target_include_directories(data_structures
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_link_libraries(data_structures
-  PUBLIC
-    compare
+target_link_libraries(compare
   PRIVATE
     utils
   INTERFACE
