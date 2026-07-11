@@ -4,12 +4,21 @@
 
 SearchResult binary_search(const List *list, const void *value)
 {
-    size_t start = 0;
-    size_t end = List_Size(list);
+    size_t size = List_Size(list);
 
-    while (start < end)
+    if (size == 0)
     {
-        size_t mid = (start + end) / 2;
+        return SearchResult_NotFound();
+    }
+
+    size_t start = 0;
+    size_t end = size - 1;
+
+    while (start <= end)
+    {
+        // TODO: Por que usar essa fórmula ao invés de `(start + end) / 2`?
+
+        size_t mid = start + ((end - start) / 2);
         void *mid_value = List_Get(list, mid);
 
         if (List_Compare_Equals(list, value, mid_value))
@@ -19,11 +28,11 @@ SearchResult binary_search(const List *list, const void *value)
 
         if (List_Compare_Less(list, value, mid_value))
         {
-            end = mid;
+            end = mid - 1;
         }
         else
         {
-            start = mid;
+            start = mid + 1;
         }
     }
 

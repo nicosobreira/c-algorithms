@@ -20,6 +20,6 @@ const void *SearchResult_PointerTo(const SearchResult *self);
 // ----------------------------------------
 
 /// Binary Search on a List
-/// @param list an **already sorted** list
+/// @param list an **already sorted** list in **increasing order**
 /// @param value the value to be find
 SearchResult binary_search(const List *list, const void *value);

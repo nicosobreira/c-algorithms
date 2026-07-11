@@ -20,6 +20,9 @@ static void List_Resize(List *self, size_t resize)
 
 List List_New(size_t size, size_t data_size, Compare compare)
 {
+    ASSERT(size > 0, "The list must have a size");
+    ASSERT(data_size > 0, "The list must have a data size");
+
     List new = {.data_size = data_size, .compare = compare};
 
     new.ptr = must_malloc(data_size * size);
@@ -41,6 +44,9 @@ void List_Free(List *self)
 
 List List_WithCapacity(size_t capacity, size_t data_size, Compare compare)
 {
+    ASSERT(capacity > 0, "The list must have a capacity");
+    ASSERT(data_size > 0, "The list must have a data size");
+
     List new = {.data_size = data_size, .compare = compare};
 
     new.size = 0;
@@ -53,6 +59,9 @@ List List_WithCapacity(size_t capacity, size_t data_size, Compare compare)
 
 List List_Load(const void *array, size_t size, size_t data_size, Compare compare)
 {
+    ASSERT(size > 0, "The list must have a size");
+    ASSERT(data_size > 0, "The list must have a data size");
+
     List new = List_New(size, data_size, compare);
 
     for (size_t i = 0; i < size; ++i)

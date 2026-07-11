@@ -83,11 +83,14 @@ static inline bool List_Compare_Less(const List *self, const void *a, const void
     return Compare_Less(&self->compare, a, b);
 }
 
+static inline bool List_Compare_Greater(const List *self, const void *a, const void *b)
+{
+    return Compare_Greater(&self->compare, a, b);
+}
+
 // ------------------------------------------------------------
 
 void List_Print_int(const List *self);
-
-void List_Print_float(const List *self);
 
 void List_Print_double(const List *self);
 
