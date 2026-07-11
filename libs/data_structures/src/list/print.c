@@ -16,17 +16,17 @@
                                                      \
     printf("\n");
 
-void List_Print_int(List *self)
+void List_Print_int(const List *self)
 {
     LIST_PRINT(self, int, "%d")
 }
 
-void List_Print_float(List *self)
+void List_Print_float(const List *self)
 {
     LIST_PRINT(self, float, "%g")
 }
 
-void List_Print_double(List *self)
+void List_Print_double(const List *self)
 {
     LIST_PRINT(self, double, "%g")
 }

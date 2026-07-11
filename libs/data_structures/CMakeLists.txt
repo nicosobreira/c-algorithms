@@ -12,4 +12,9 @@ target_include_directories(data_structures
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_link_libraries(data_structures INTERFACE project_flags)
+target_link_libraries(data_structures
+  PRIVATE
+    utils
+  INTERFACE
+    project_flags
+)

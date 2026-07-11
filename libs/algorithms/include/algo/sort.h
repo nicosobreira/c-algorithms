@@ -17,28 +17,28 @@ void insertion_sort(List *list, CompareFunc cmp);
 
 /// Less Equal
 /// @return true if a <= b, false otherwise
-bool int_le(COMPARE_FUNC_ARGS);
+bool int_increasing(COMPARE_FUNC_ARGS);
 
 /// Greater Equal
 /// @return true if a >= b, false otherwise
-bool int_ge(COMPARE_FUNC_ARGS);
+bool int_decreasing(COMPARE_FUNC_ARGS);
 
 // ----------------------------------------
 
 /// Less Equal
 /// @return true if a <= b, false otherwise
-bool float_le(COMPARE_FUNC_ARGS);
+bool float_increasing(COMPARE_FUNC_ARGS);
 
 /// Greater Equal
 /// @return true if a >= b, false otherwise
-bool float_ge(COMPARE_FUNC_ARGS);
+bool float_decreasing(COMPARE_FUNC_ARGS);
 
 // ----------------------------------------
 
 /// Less Equal
 /// @return true if a <= b, false otherwise
-bool double_le(COMPARE_FUNC_ARGS);
+bool double_increasing(COMPARE_FUNC_ARGS);
 
 /// Greater Equal
 /// @return true if a >= b, false otherwise
-bool double_ge(COMPARE_FUNC_ARGS);
+bool double_decreasing(COMPARE_FUNC_ARGS);

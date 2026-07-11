@@ -1,4 +1,4 @@
-#include "algo/sorting.h"
+#include "algo/sort.h"
 
 #include <stddef.h>
 

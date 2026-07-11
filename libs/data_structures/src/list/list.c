@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../assert.h"
-#include "../utils.h"
+#include "utils/allocation.h"
+#include "utils/assert.h"
+#include "utils/memory.h"
+
 #include "unsafe.h"
 
 static void List_Resize(List *self, size_t resize)
@@ -48,21 +50,21 @@ List List_WithCapacity(size_t capacity, size_t data_size)
     return new;
 }
 
-List List_Load(void *array, size_t size, size_t data_size)
+List List_Load(const void *array, size_t size, size_t data_size)
 {
     List new = List_New(size, data_size);
 
     for (size_t i = 0; i < size; ++i)
     {
-        List_Set(&new, i, array + (i * data_size));
+        List_Set(&new, i, byte_offset(array, i, data_size));
     }
 
     return new;
 }
 
-List List_NewSlice(List *list, size_t start_index, size_t end_index)
+List List_NewSlice(const List *list, size_t start_index, size_t end_index)
 {
-    ASSERT(start_index <= end_index, "start shoulb be less or equal to end");
+    ASSERT(start_index <= end_index, "start should be less or equal to end");
 
     ASSERT(start_index < list->size, "Index Out of Bounds");
     ASSERT(end_index < list->size, "Index Out of Bounds");
@@ -71,21 +73,21 @@ List List_NewSlice(List *list, size_t start_index, size_t end_index)
 
     // Because we are dealing with indexes, we have to sum 1.
     // If both end_index and start_index are equal, say to 3, than, 3 - 3 + 1 = 1.
-    const size_t new_size = end_index - start_index + 1;
+    size_t new_size = end_index - start_index + 1;
 
     List new = List_Load(new_start, new_size, list->data_size);
 
     return new;
 }
 
-void *List_Get(List *self, size_t index)
+void *List_Get(const List *self, size_t index)
 {
     ASSERT(index < self->size, "Index Out of Bounds");
 
-    return self->ptr + (index * self->data_size);
+    return byte_offset(self->ptr, index, self->data_size);
 }
 
-void *List_GetCopy(List *self, size_t index)
+void *List_GetCopy(const List *self, size_t index)
 {
     void *copy = malloc(self->data_size);
 

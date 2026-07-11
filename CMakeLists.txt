@@ -44,14 +44,16 @@ if(ENABLE_CLANG_TIDY)
   if(CLANG_TIDY_EXE)
     set(CMAKE_C_CLANG_TIDY "${CLANG_TIDY_EXE}")
   else()
-    message(WARNING "clang-tidy não encontrado, ignorando ENABLE_CLANG_TIDY")
+    message(WARNING "clang-tidy not found, ignoring ENABLE_CLANG_TIDY")
+    set(CMAKE_C_CLANG_TIDY "")
   endif()
 endif()
 
 # =============================================================================
 
-add_subdirectory(data_structures)
-add_subdirectory(algorithms)
+add_subdirectory(libs/data_structures)
+add_subdirectory(libs/algorithms)
+add_subdirectory(libs/utils)
 
 if(BUILD_EXAMPLES)
   add_subdirectory(examples)
