@@ -9,5 +9,5 @@ static inline SearchResult SearchResult_Found(size_t index, const void *pointer_
 
 static inline SearchResult SearchResult_NotFound(void)
 {
-    return (SearchResult){.did_find = false, .index = 0, .pointer_to = 0};
+    return (SearchResult){.did_find = false, .index = 0, .pointer_to = NULL};
 }
