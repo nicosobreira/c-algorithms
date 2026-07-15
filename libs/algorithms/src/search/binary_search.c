@@ -18,6 +18,7 @@ SearchResult binary_search(const List *list, const void *value)
     {
         // TODO: Por que usar essa fórmula ao invés de `(start + end) / 2`?
 
+        // if `start + end` is even, the division is floored
         size_t mid = start + ((end - start) / 2);
         void *mid_value = List_Get(list, mid);
 

@@ -5,21 +5,23 @@
 
 #include "ds/list.h"
 
-/**
-Loop invariant.
+/** Insertion Sort Loop Invariant
+For Loop:
 
-    Initialization:
-At the start j = 1, so the subarray list[0..j - 1] has one element (list[0]). And so, it's sorted.
-The subarray list[j..n] isn't sorted yet.
+    Initialization
+At the start j = 1, so the subarray list[0..j - 1] has one element, namely list[0]. Therefore, list[0..j - 1] is sorted.
 
-    Maintain:
-Let i = j and key = list[j]. The subarray list[0..i - 1] is sorted prior to the while loop.
-If i > 0 and key < list[i - 1], then the key is the smallest value comparing to list[i..j], but we don't know if this is
-true for the subarray list[0..i - 1], so we decrement i by 1.
-If i == 0 or key > list[i], then key is the smallest element in the subarray list[i..j].
+    Maintain
+Let key = list[j] and i = j. We compare the key with the sorted subarray list[0..i - 1] until (1) i == 0 or (2) key >
+list[i - 1], while moving the list[i..j - 1] to the right, making key the smallest element of the subarray list[i..j].
+The we make list[i] = key.
+In case none of those conditions are true, i is decremented by 1.
+
+* As a result, the subarray list[0..j] is sorted.
 
     Finalization
-When j = n - 1, the subarray list[0..n - 1] is sorted.
+
+When j = n - 1, the subarray list[0..n - 1], that is the entire array list, is sorted.
 */
 void insertion_sort(List *list)
 {
