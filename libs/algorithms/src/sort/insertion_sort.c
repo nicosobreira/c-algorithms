@@ -12,10 +12,9 @@ For Loop:
 At the start j = 1, so the subarray list[0..j - 1] has one element, namely list[0]. Therefore, list[0..j - 1] is sorted.
 
     Maintain
-Let key = list[j] and i = j. We compare the key with the sorted subarray list[0..i - 1] until (1) i == 0 or (2) key >
-list[i - 1], while moving the list[i..j - 1] to the right, making key the smallest element of the subarray list[i..j].
-The we make list[i] = key.
-In case none of those conditions are true, i is decremented by 1.
+Let key = list[j] and i = j. We compare the key with the sorted subarray list[0..i - 1] until either (1) i == 0 or (2)
+key > list[i - 1], while moving the list[i..j - 1] to the right, making key the smallest element of the subarray
+list[i..j]. Then we make list[i] = key. In case none of those conditions are true, i is decremented by 1.
 
 * As a result, the subarray list[0..j] is sorted.
 
