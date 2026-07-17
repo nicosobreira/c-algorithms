@@ -1,7 +1,7 @@
 # Custom
 Session.vim*
 build/*
-test/
+docs/
 .cache
 compile_commands*
 .direnv
