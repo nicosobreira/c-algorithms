@@ -1,6 +1,6 @@
-#include "ds/list.h"
+#include "ds/list/defaults.h"
 
-#include "compare/core.h"
+#include "compare/defaults.h"
 
 List List_New_int(size_t size)
 {

@@ -1,18 +1,10 @@
 #include "compare/core.h"
 
-#include "default.h"
+#include "utils/assert.h"
 
-Compare Compare_New(CompareEquals equals, CompareLess less)
+Compare Compare_New(CompareFunc cmp)
 {
-    return (Compare){.equals = equals, .less = less};
-}
+    ASSERT(cmp != NULL, "Compare function can't be NULL");
 
-Compare Compare_New_int(void)
-{
-    return (Compare){.equals = int_equals, .less = int_less};
-}
-
-Compare Compare_New_double(void)
-{
-    return (Compare){.equals = double_equals, .less = double_less};
+    return (Compare){.cmp = cmp};
 }

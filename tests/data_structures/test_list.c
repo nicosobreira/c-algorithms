@@ -1,6 +1,7 @@
 #include "unity.h"
 
-#include "ds/list.h"
+#include "ds/list/core.h"
+#include "ds/list/defaults.h"
 
 void setUp(void)
 {

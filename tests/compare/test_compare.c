@@ -1,6 +1,7 @@
 #include "unity.h"
 
 #include "compare/core.h"
+#include "compare/defaults.h"
 
 void setUp(void)
 {
@@ -13,39 +14,19 @@ void tearDown(void)
 // Compare_New (generic constructor)
 // ------------------------------------------------------------
 
-static bool always_equal(const void *a, const void *b)
+static int always_equal(const void *a, const void *b)
 {
     (void)a;
     (void)b;
 
-    return true;
-}
-
-static bool always_less(const void *a, const void *b)
-{
-    (void)a;
-    (void)b;
-
-    return false;
+    return 0;
 }
 
 static void test_compare_new_stores_function_pointers(void)
 {
-    Compare compare = Compare_New(always_equal, always_less);
+    Compare compare = Compare_New(always_equal);
 
-    TEST_ASSERT_TRUE(compare.equals == always_equal);
-    TEST_ASSERT_TRUE(compare.less == always_less);
-}
-
-static void test_compare_new_dispatches_to_given_functions(void)
-{
-    Compare compare = Compare_New(always_equal, always_less);
-
-    int a = 1;
-    int b = 2;
-
-    TEST_ASSERT_TRUE(Compare_Equals(&compare, &a, &b));
-    TEST_ASSERT_FALSE(Compare_Less(&compare, &a, &b));
+    TEST_ASSERT_TRUE(compare.cmp == always_equal);
 }
 
 // ------------------------------------------------------------
@@ -159,7 +140,6 @@ int main(void)
     UNITY_BEGIN();
 
     RUN_TEST(test_compare_new_stores_function_pointers);
-    RUN_TEST(test_compare_new_dispatches_to_given_functions);
 
     RUN_TEST(test_compare_new_int_equals);
     RUN_TEST(test_compare_new_int_less);

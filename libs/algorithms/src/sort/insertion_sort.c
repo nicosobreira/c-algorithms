@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 /** Insertion Sort Loop Invariant
 For Loop:

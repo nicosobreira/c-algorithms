@@ -1,4 +1,4 @@
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 #include <stdio.h>
 #include <stdlib.h>

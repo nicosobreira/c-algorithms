@@ -1,37 +1,31 @@
 #include "compare/core.h"
 
-#include "utils/assert.h"
-
-bool Compare_Equals(const Compare *self, COMPARE_FUNC_ARGS)
+bool Compare_Equals(const Compare *self, const void *a, const void *b)
 {
-    ASSERT(self->equals != NULL, "Please, define the `equals` function pointer in `Compare_New`");
-
-    return self->equals(a, b);
+    return self->cmp(a, b) == 0;
 }
 
-bool Compare_Less(const Compare *self, COMPARE_FUNC_ARGS)
+bool Compare_Less(const Compare *self, const void *a, const void *b)
 {
-    ASSERT(self->equals != NULL, "Please, define the `less` function pointer in `Compare_New`");
-
-    return self->less(a, b);
+    return self->cmp(a, b) < 0;
 }
 
-bool Compare_LessEquals(const Compare *self, COMPARE_FUNC_ARGS)
+bool Compare_LessEquals(const Compare *self, const void *a, const void *b)
 {
     return (bool)(Compare_Less(self, a, b) || Compare_Equals(self, a, b));
 }
 
-bool Compare_NotEqual(const Compare *self, COMPARE_FUNC_ARGS)
+bool Compare_NotEqual(const Compare *self, const void *a, const void *b)
 {
     return (bool)!Compare_Equals(self, a, b);
 }
 
-bool Compare_Greater(const Compare *self, COMPARE_FUNC_ARGS)
+bool Compare_Greater(const Compare *self, const void *a, const void *b)
 {
-    return (bool)!Compare_LessEquals(self, a, b);
+    return self->cmp(a, b) > 0;
 }
 
-bool Compare_GreaterEquals(const Compare *self, COMPARE_FUNC_ARGS)
+bool Compare_GreaterEquals(const Compare *self, const void *a, const void *b)
 {
     return (bool)!Compare_Less(self, a, b);
 }

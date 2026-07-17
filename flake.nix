@@ -28,9 +28,7 @@
 
               toolchain.clang-tools
 
-              # For the Linux system calls
-              man-pages
-              man-pages-posix
+              doxygen
             ];
           };
       }

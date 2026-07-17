@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 typedef struct SearchResult
 {

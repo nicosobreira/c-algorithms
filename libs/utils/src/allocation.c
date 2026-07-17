@@ -1,9 +1,9 @@
-#include "allocation.h"
+#include "utils/allocation.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "assert.h"
+#include "utils/assert.h"
 
 void *must_malloc(size_t size)
 {

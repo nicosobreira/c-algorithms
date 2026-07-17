@@ -17,7 +17,7 @@
 
 #endif
 
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 /// Allocates an pointer with size `data_size` on the stack
 #define LIST_GET_STACK_COPY(list_ptr, index) \

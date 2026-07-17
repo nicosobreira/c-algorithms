@@ -1,7 +1,6 @@
-file(GLOB_RECURSE EXAMPLES_SOURCES CONFIGURE_DEPENDS
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
-)
+function(add_example name)
+  add_executable(${name} ${ARGN})
+  target_link_libraries(${name} PRIVATE algorithms project_flags)
+endfunction()
 
-add_executable(example ${EXAMPLES_SOURCES})
-
-target_link_libraries(example PRIVATE algorithms INTERFACE project_flags)
+add_example(compare_example src/compare.c)

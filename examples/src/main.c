@@ -1,5 +1,5 @@
 #include "algo/sort.h"
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 #define SIZE(array) sizeof(array) / sizeof(array[0])
 

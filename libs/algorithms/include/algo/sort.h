@@ -2,7 +2,7 @@
 
 #include <stdbool.h>
 
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 // ----------------------------------------
 

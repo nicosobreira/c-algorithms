@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 
-#include "ds/list.h"
+#include "ds/list/core.h"
 
 static void fill_up(List *list, List *side, size_t list_start, size_t side_start)
 {

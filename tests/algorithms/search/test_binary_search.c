@@ -1,8 +1,9 @@
 #include "unity.h"
 
-#include "ds/list.h"
-
 #include "algo/search.h"
+
+#include "ds/list/core.h"
+#include "ds/list/defaults.h"
 
 void setUp(void)
 {
