@@ -4,7 +4,7 @@ FetchContent_Declare(
   unity
   GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
   GIT_TAG        v2.6.1
-  SYSTEM
+  SYSTEM # This ignores project_flags for unity
 )
 FetchContent_MakeAvailable(unity)
 
@@ -25,3 +25,5 @@ add_unit_test(data_structures test_list test_list.c)
 add_unit_test(algorithms test_insertion_sort sort/test_insertion_sort.c)
 
 add_unit_test(algorithms test_binary_search search/test_binary_search.c)
+
+add_unit_test(algorithms test_has_two_sum search/test_has_two_sum.c)
