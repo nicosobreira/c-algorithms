@@ -4,7 +4,7 @@
 
 #include "ds/list/core.h"
 
-static void fill_up(List *list, List *side, size_t list_start, size_t side_start)
+static inline void fill_up(List *list, List *side, size_t list_start, size_t side_start)
 {
     size_t k = list_start + 1;
     for (size_t i = side_start; i < List_Size(side); ++i)
@@ -14,13 +14,13 @@ static void fill_up(List *list, List *side, size_t list_start, size_t side_start
     }
 }
 
-static void merge(List *list, size_t p, size_t q, size_t r)
+static inline void merge(List *list, size_t p, size_t q, size_t r)
 {
     // The parameters `q` and `r` are the sizes of their subarrays.
-    // Because `List_NewSlice` receives **indexes** we have to tranform them
+    // Because `List_LoadSlice` receives **indexes** we have to tranform them
 
-    List left = List_NewSlice(list, p, q - 1);
-    List right = List_NewSlice(list, q, r - 1);
+    List left = List_LoadSlice(list, p, q - 1);
+    List right = List_LoadSlice(list, q, r - 1);
 
     // It isnt't possible to use sentinels (-inf or +inf) because the `cmp`
     // function can compare values in many ways (less equal or greater equal)
@@ -56,7 +56,7 @@ static void merge(List *list, size_t p, size_t q, size_t r)
     }
 }
 
-static void sort(List *list, size_t p, size_t r)
+static inline void sort(List *list, size_t p, size_t r)
 {
     const size_t size = r - p;
 
