@@ -4,6 +4,8 @@
 
 #include "ds/list/core.h"
 
+// TODO: Implement an iterative Merge Sort
+
 static inline void fill_up(List *list, List *side, size_t list_start, size_t side_start)
 {
     size_t k = list_start + 1;
