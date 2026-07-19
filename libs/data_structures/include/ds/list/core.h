@@ -16,6 +16,10 @@
 
 #include "compare/core.h"
 
+// TODO: Add tests to `List_SliceView`
+
+// TODO: Add documentation to `List_SliceView`
+
 /** Generic Dynamic Allocated List.
  */
 typedef struct List
@@ -24,7 +28,7 @@ typedef struct List
     const size_t data_size; /**< Size of each element. */
     void *ptr;              /**< Heap allocated pointer to the start. */
     size_t size;            /**< Total of elements. */
-    size_t capacity;        /**< Total of elements allocated. @note Can be greater then List.size */
+    size_t capacity;        /**< Total of elements **allocated**. @note Can be greater then List.size */
 } List;
 
 /** Return List.size.
@@ -82,7 +86,7 @@ List List_WithCapacity(size_t capacity, size_t data_size, Compare compare);
  */
 List List_Load(const void *array, size_t size, size_t data_size, Compare compare);
 
-/** New list slice in the range of indexes.
+/** New list slice copy in the range of indexes.
  * Each element from list start_index until end_index is **copied** into the new list.
  * Both the List.data_size and List.compare are copied.
  *
@@ -92,12 +96,24 @@ List List_Load(const void *array, size_t size, size_t data_size, Compare compare
  *
  * @note The size of the new list is: `end_index - start_index + 1`.
  *
+ * @warning The list slice need to be cleanup using @ref List_Free.
  * @warning If `start_index` is greater than `end_index`, the program is
- *           aborted.
+ *          aborted.
  * @warning If `start_index` is out of bounds, the program is aborted.
  * @warning If `end_index` is out of bounds, the program is aborted.
  */
-List List_NewSlice(const List *list, size_t start_index, size_t end_index);
+List List_LoadSlice(const List *list, size_t start_index, size_t end_index);
+
+/** New list slice view in the range of indexes.
+ *
+ * @warning Don't use functions, because the this is a view:
+ *          @ref List_Push, @ref List_Pop, @ref List_Free.
+ * @warning If `start_index` is greater than `end_index`, the program is
+ *          aborted.
+ * @warning If `start_index` is out of bounds, the program is aborted.
+ * @warning If `end_index` is out of bounds, the program is aborted.
+ */
+List List_SliceView(const List *list, size_t start_index, size_t end_index);
 
 /** Get a pointer to an element at index.
  * @warning If the pointer is changed outside, the value in `self` is updated

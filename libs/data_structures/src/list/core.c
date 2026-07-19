@@ -72,7 +72,7 @@ List List_Load(const void *array, size_t size, size_t data_size, Compare compare
     return new;
 }
 
-List List_NewSlice(const List *list, size_t start_index, size_t end_index)
+List List_LoadSlice(const List *list, size_t start_index, size_t end_index)
 {
     ASSERT(start_index <= end_index, "start should be less or equal to end");
 
@@ -81,13 +81,31 @@ List List_NewSlice(const List *list, size_t start_index, size_t end_index)
 
     void *new_start = List_Get(list, start_index);
 
-    // Because we are dealing with indexes, we have to sum 1.
-    // If both end_index and start_index are equal, say to 3, than, 3 - 3 + 1 = 1.
     size_t new_size = end_index - start_index + 1;
 
     List new = List_Load(new_start, new_size, list->data_size, list->compare);
 
     return new;
+}
+
+List List_SliceView(const List *list, size_t start_index, size_t end_index)
+{
+    ASSERT(start_index <= end_index, "start should be less or equal to end");
+
+    ASSERT(start_index < list->size, "Index Out of Bounds");
+    ASSERT(end_index < list->size, "Index Out of Bounds");
+
+    void *new_start = List_Get(list, start_index);
+
+    size_t new_size = end_index - start_index + 1;
+
+    return (List){
+        .ptr = new_start,
+        .size = new_size,
+        .capacity = new_size,
+        .data_size = list->data_size,
+        .compare = list->compare,
+    };
 }
 
 void *List_Get(const List *self, size_t index)
