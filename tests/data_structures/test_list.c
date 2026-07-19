@@ -39,7 +39,7 @@ static void test_list_new_slice(void)
     int array[] = {1, 3, 108};
     List list = List_Load_int(array, 3);
 
-    List slice = List_NewSlice(&list, 0, 1);
+    List slice = List_LoadSlice(&list, 0, 1);
 
     int expected[] = {1, 3};
 
