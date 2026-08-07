@@ -16,9 +16,8 @@
 
 #include "compare/core.h"
 
-// TODO: Add tests to `List_SliceView`
-
-// TODO: Add documentation to `List_SliceView`
+// TODO: Utilizar uma **composição de structs** para criar um ListView. O struct
+// List passa a ser um ListView + capacity
 
 /** Generic Dynamic Allocated List.
  */
