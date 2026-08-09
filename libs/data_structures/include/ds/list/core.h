@@ -6,7 +6,7 @@
  *
  * @note There exist defaults loaders for some C types, see the family of
  * functions `List_<action>_<type>`. As an example, when you need to create a
- * new `int` List, use @ref List_New_int.
+ * *new* `int` List, use @ref List_New_int.
  */
 
 #pragma once
@@ -16,32 +16,50 @@
 
 #include "compare/core.h"
 
+#include "view.h"
+
 // TODO: Utilizar uma **composição de structs** para criar um ListView. O struct
 // List passa a ser um ListView + capacity
 
 /** Generic Dynamic Allocated List.
+ * The implemantation is using a **compositive** approach: ListView plus the
+ * capacity.
  */
 typedef struct List
 {
-    const Compare compare;  /**< Compare function (see @ref Compare). */
-    const size_t data_size; /**< Size of each element. */
-    void *ptr;              /**< Heap allocated pointer to the start. */
-    size_t size;            /**< Total of elements. */
-    size_t capacity;        /**< Total of elements **allocated**. @note Can be greater then List.size */
+    ListView view;
+    size_t capacity; /**< Total of elements **allocated**. @note Can be greater then ListView.size */
 } List;
 
-/** Return List.size.
+/** Return List.view
+ * Use this function when you need to pass a List.view as a parameter to another
+ * function.
+ *
+ * As an example, for the function `void my_sort(ListView self)` you would pass
+ * `sort(List_View(my_list))`.
+ */
+static inline ListView List_View(const List *self)
+{
+    return self->view;
+}
+
+/** Return ListView.size.
  */
 static inline size_t List_Size(const List *self)
 {
-    return self->size;
+    return self->view.size;
 }
 
-/** Return `true` if List.size is 0, `false` otherwise.
+static inline void *List_Ptr(const List *self)
+{
+    return self->view.ptr;
+}
+
+/** Return `true` if ListView.size is 0, `false` otherwise.
  */
 static inline bool List_IsEmpty(const List *self)
 {
-    return self->size == 0;
+    return ListView_IsEmpty(&self->view);
 }
 
 /** Create a new heap allocated List.
@@ -74,6 +92,8 @@ void List_Free(List *self);
  */
 List List_WithCapacity(size_t capacity, size_t data_size, Compare compare);
 
+// TODO: See if it makes sense to move List_Load to ListView.
+
 /** Creates a new list with the elements of an array.
  * The new list has the same capacity and size of the array.
  *
@@ -101,7 +121,7 @@ List List_Load(const void *array, size_t size, size_t data_size, Compare compare
  * @warning If `start_index` is out of bounds, the program is aborted.
  * @warning If `end_index` is out of bounds, the program is aborted.
  */
-List List_LoadSlice(const List *list, size_t start_index, size_t end_index);
+List List_LoadSlice(const ListView *view, size_t start_index, size_t end_index);
 
 /** New list slice view in the range of indexes.
  *
@@ -112,48 +132,27 @@ List List_LoadSlice(const List *list, size_t start_index, size_t end_index);
  * @warning If `start_index` is out of bounds, the program is aborted.
  * @warning If `end_index` is out of bounds, the program is aborted.
  */
-List List_SliceView(const List *list, size_t start_index, size_t end_index);
+ListView List_NewSlice(const ListView *view, size_t start_index, size_t end_index);
 
-/** Get a pointer to an element at index.
- * @warning If the pointer is changed outside, the value in `self` is updated
- *          as well.
- *          In case you want to use a copy instead, prefer @ref List_GetCopy.
- * @warning If `index` is out of bounds, the program is aborted.
- */
-void *List_Get(const List *self, size_t index);
+static inline void *List_Get(const List *self, size_t index)
+{
+    return ListView_Get(&self->view, index);
+}
 
-/** Get a copy of an element from the list at index.
- * @details The caller takes ownership of the returned memory and is strictly
- *          responsible for releasing it using `free` to prevent memory leaks.
- *
- * @param[in] self  A pointer to the List.
- * @param[in] index The index of the element to copy.
- * @return A void pointer to the newly allocated copy of the element (`NULL`
- *         never is returned).
- *
- * @warning If memory allocation fails, the program is aborted.
- * @warning If `index` is out of bounds, the program is aborted.
- */
-void *List_GetCopy(const List *self, size_t index);
+static inline void *List_GetCopy(const List *self, size_t index)
+{
+    return ListView_GetCopy(&self->view, index);
+}
 
-/** Set a value to List.
- * @param[in,out] self The List to be changed.
- * @param[in] index The index of the new element `value`.
- * @param[in] value Copies List.data_size from the pointer value into `self`.
- *
- * @warning If `index` is out of bounds, the program is aborted.
- */
-void List_Set(List *self, size_t index, void *value);
+static inline void List_Set(List *self, size_t index, void *value)
+{
+    ListView_Set(&self->view, index, value);
+}
 
-/** Swap elements in indexes.
- * @param[in,out] self The List to be changed.
- * @param[in] index_a The value in this index will be copied to `index_b`.
- * @param[in] index_b The value in this index will be copied to `index_a`.
- *
- * @warning If `index_a` is out of bounds, the program is aborted.
- * @warning If `index_b` is out of bounds, the program is aborted.
- */
-void List_Swap(List *self, size_t index_a, size_t index_b);
+static inline void List_Swap(List *self, size_t index_a, size_t index_b)
+{
+    ListView_Swap(&self->view, index_a, index_b);
+}
 
 /** Push an element to the end of List.
  * If the List capacity is over, it will be resized by a default value.
@@ -163,6 +162,8 @@ void List_Swap(List *self, size_t index_a, size_t index_b);
  */
 void List_Push(List *self, void *value);
 
+// TODO: See if it makes sense to move List_Pop logic to ListView.
+
 /** Pop the last element of List.
  * No elements, only the List.size is decremented by 1.
  *
@@ -170,21 +171,24 @@ void List_Push(List *self, void *value);
  *
  * @warning If List.size is 0, the program is aborted.
  */
-void List_Pop(List *self);
+static inline void List_Pop(List *self)
+{
+    ListView_Pop(&self->view);
+}
 
 // ------------------------------------------------------------
 
 static inline bool List_Compare_Equals(const List *self, const void *a, const void *b)
 {
-    return Compare_Equals(&self->compare, a, b);
+    return ListView_Compare_Equals(&self->view, a, b);
 }
 
 static inline bool List_Compare_Less(const List *self, const void *a, const void *b)
 {
-    return Compare_Less(&self->compare, a, b);
+    return ListView_Compare_Less(&self->view, a, b);
 }
 
 static inline bool List_Compare_Greater(const List *self, const void *a, const void *b)
 {
-    return Compare_Greater(&self->compare, a, b);
+    return ListView_Compare_Greater(&self->view, a, b);
 }

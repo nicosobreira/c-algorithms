@@ -8,14 +8,12 @@
 #include "utils/assert.h"
 #include "utils/memory.h"
 
-#include "unsafe.h"
-
 static void List_Resize(List *self, size_t resize)
 {
     self->capacity += resize;
-    void *new = must_realloc(self->ptr, self->data_size * self->capacity);
+    void *new = must_realloc(self->view.ptr, self->view.data_size * self->capacity);
 
-    self->ptr = new;
+    self->view.ptr = new;
 }
 
 List List_New(size_t size, size_t data_size, Compare compare)
@@ -23,22 +21,17 @@ List List_New(size_t size, size_t data_size, Compare compare)
     ASSERT(size > 0, "The list must have a size");
     ASSERT(data_size > 0, "The list must have a data size");
 
-    List new = {.data_size = data_size, .compare = compare};
+    void *ptr = must_malloc(data_size * size);
 
-    new.ptr = must_malloc(data_size * size);
-
-    new.size = size;
-    new.capacity = size;
-
-    return new;
+    return (List){.view = ListView_New(ptr, data_size, size, compare), .capacity = size};
 }
 
 void List_Free(List *self)
 {
-    free(self->ptr);
+    free(self->view.ptr);
 
-    self->ptr = NULL;
-    self->size = 0;
+    self->view.ptr = NULL;
+    self->view.size = 0;
     self->capacity = 0;
 }
 
@@ -47,14 +40,10 @@ List List_WithCapacity(size_t capacity, size_t data_size, Compare compare)
     ASSERT(capacity > 0, "The list must have a capacity");
     ASSERT(data_size > 0, "The list must have a data size");
 
-    List new = {.data_size = data_size, .compare = compare};
+    const size_t size = 0;
+    void *ptr = must_malloc(data_size * capacity);
 
-    new.size = 0;
-    new.capacity = capacity;
-
-    new.ptr = must_malloc(new.data_size * new.capacity);
-
-    return new;
+    return (List){.view = ListView_New(ptr, data_size, size, compare)};
 }
 
 List List_Load(const void *array, size_t size, size_t data_size, Compare compare)
@@ -72,97 +61,46 @@ List List_Load(const void *array, size_t size, size_t data_size, Compare compare
     return new;
 }
 
-List List_LoadSlice(const List *list, size_t start_index, size_t end_index)
+List List_LoadSlice(const ListView *view, size_t start_index, size_t end_index)
 {
     ASSERT(start_index <= end_index, "start should be less or equal to end");
 
-    ASSERT(start_index < list->size, "Index Out of Bounds");
-    ASSERT(end_index < list->size, "Index Out of Bounds");
+    ASSERT(start_index < view->size, "Index Out of Bounds");
+    ASSERT(end_index < view->size, "Index Out of Bounds");
 
-    void *new_start = List_Get(list, start_index);
+    void *new_start = ListView_Get(view, start_index);
 
     size_t new_size = end_index - start_index + 1;
 
-    List new = List_Load(new_start, new_size, list->data_size, list->compare);
+    List new = List_Load(new_start, new_size, view->data_size, view->compare);
 
     return new;
 }
 
-List List_SliceView(const List *list, size_t start_index, size_t end_index)
+ListView List_NewSlice(const ListView *view, size_t start_index, size_t end_index)
 {
     ASSERT(start_index <= end_index, "start should be less or equal to end");
 
-    ASSERT(start_index < list->size, "Index Out of Bounds");
-    ASSERT(end_index < list->size, "Index Out of Bounds");
+    ASSERT(start_index < view->size, "Index Out of Bounds");
+    ASSERT(end_index < view->size, "Index Out of Bounds");
 
-    void *new_start = List_Get(list, start_index);
+    void *new_ptr = ListView_Get(view, start_index);
 
     size_t new_size = end_index - start_index + 1;
 
-    return (List){
-        .ptr = new_start,
-        .size = new_size,
-        .capacity = new_size,
-        .data_size = list->data_size,
-        .compare = list->compare,
-    };
-}
-
-void *List_Get(const List *self, size_t index)
-{
-    ASSERT(index < self->size, "Index Out of Bounds");
-
-    return byte_offset(self->ptr, index, self->data_size);
-}
-
-void *List_GetCopy(const List *self, size_t index)
-{
-    void *copy = malloc(self->data_size);
-
-    ASSERT(copy != NULL, "Out of Memory");
-
-    memcpy(copy, List_Get(self, index), self->data_size);
-
-    return copy;
-}
-
-void List_Set(List *self, size_t index, void *value)
-{
-    ASSERT(index < self->size, "Index Out of Bounds");
-
-    memcpy(List_Get(self, index), value, self->data_size);
-}
-
-void List_Swap(List *self, size_t index_a, size_t index_b)
-{
-    ASSERT(index_a < self->size, "Index Out of Bounds");
-    ASSERT(index_b < self->size, "Index Out of Bounds");
-
-    void *temp = LIST_GET_STACK_COPY(self, index_a);
-    void *a = List_Get(self, index_a);
-    void *b = List_Get(self, index_b);
-
-    memcpy(a, b, self->data_size);
-    memcpy(b, temp, self->data_size);
+    return ListView_New(new_ptr, view->data_size, new_size, view->compare);
 }
 
 void List_Push(List *self, void *value)
 {
     const size_t resize = 10;
 
-    if (self->size >= self->capacity)
+    if (self->view.size >= self->capacity)
     {
         List_Resize(self, resize);
     }
 
-    self->size += 1;
+    self->view.size += 1;
 
-    List_Set(self, self->size - 1, value);
-}
-
-void List_Pop(List *self)
-{
-    ASSERT(self->size != 0, "The list is empty");
-
-    self->size -= 1;
+    List_Set(self, self->view.size - 1, value);
 }

@@ -20,5 +20,5 @@
 #include "ds/list/core.h"
 
 /// Allocates an pointer with size `data_size` on the stack
-#define LIST_GET_STACK_COPY(list_ptr, index) \
-    memcpy(alloca((list_ptr)->data_size), List_Get((list_ptr), (index)), (list_ptr)->data_size)
+#define LIST_VIEW_GET_STACK_COPY(list_view_ptr, index) \
+    memcpy(alloca((list_view_ptr)->data_size), ListView_Get((list_view_ptr), (index)), (list_view_ptr)->data_size)

@@ -15,7 +15,7 @@ static void test_list_load(void)
     int expected[] = {1, 3, 108};
     List list = List_Load_int(expected, 3);
 
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected, list.ptr, 3);
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected, List_Ptr(&list), 3);
 
     List_Free(&list);
 }
@@ -29,12 +29,12 @@ static void test_list_swap(void)
 
     int expected[] = {1, 108, 3};
 
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected, list.ptr, 3);
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected, List_Ptr(&list), 3);
 
     List_Free(&list);
 }
 
-static void test_list_new_slice(void)
+static void test_list_load_slice(void)
 {
     int array[] = {1, 3, 108};
     List list = List_Load_int(array, 3);
@@ -43,10 +43,24 @@ static void test_list_new_slice(void)
 
     int expected[] = {1, 3};
 
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected, slice.ptr, 2);
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected, List_Ptr(&slice), 2);
 
     List_Free(&list);
     List_Free(&slice);
+}
+
+static void test_list_slice_view(void)
+{
+    int array[] = {1, 2, 3, 4, 5};
+    List list = List_Load_int(array, 5);
+
+    ListView slice = List_NewSlice(&list, 2, 4);
+
+    int expected[] = {3, 4, 5};
+
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected, slice.ptr, 3);
+
+    List_Free(&list);
 }
 
 static void test_list_push_increases_size(void)
@@ -56,7 +70,7 @@ static void test_list_push_increases_size(void)
     int value = 42;
     List_Push(&list, &value);
 
-    TEST_ASSERT_EQUAL_UINT(1, List_Size(&list));
+    TEST_ASSERT_EQUAL_size_t(1, List_Size(&list));
     TEST_ASSERT_EQUAL_INT(42, *(int *)List_Get(&list, 0));
 
     List_Free(&list);
@@ -93,7 +107,8 @@ int main(void)
 
     RUN_TEST(test_list_load);
     RUN_TEST(test_list_swap);
-    RUN_TEST(test_list_new_slice);
+    RUN_TEST(test_list_load_slice);
+    RUN_TEST(test_list_slice_view);
     RUN_TEST(test_list_push_increases_size);
     RUN_TEST(test_list_get_set);
     RUN_TEST(test_list_is_empty);

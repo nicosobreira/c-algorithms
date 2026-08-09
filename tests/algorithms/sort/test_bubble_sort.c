@@ -19,7 +19,7 @@ static void test_single_element(void)
 
     bubble_sort(&list);
 
-    TEST_ASSERT_EQUAL_INT_ARRAY(array, list.ptr, 1);
+    TEST_ASSERT_EQUAL_INT_ARRAY(array, List_Ptr(&list), 1);
 
     List_Free(&list);
 }
@@ -33,7 +33,7 @@ static void test_general_case(void)
 
     int expected[] = {1, 2, 3};
 
-    TEST_ASSERT_EQUAL_INT_ARRAY(expected, list.ptr, 3);
+    TEST_ASSERT_EQUAL_INT_ARRAY(expected, List_Ptr(&list), 3);
 
     List_Free(&list);
 }
