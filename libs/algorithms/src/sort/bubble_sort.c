@@ -66,7 +66,7 @@ crescente. **Pela Manutenção, A\[n\] é maior ou igual a A\[n - 1\]; com isso 
 
 Para todos os casos (melhor, médio e pior) o Bubble Sort tem um crescimento de \f$\Theta(n^2)\f$.
 
-Seja \f$c\f$ o tempo gasto em uma iteração do lopp 2-4. Sabemos que o loop 1-4 vai de \f$1\f$ até \f$n - 1\f$. Já o loop
+Seja \f$c\f$ o tempo gasto em uma iteração do loop 2-4. Sabemos que o loop 1-4 vai de \f$1\f$ até \f$n - 1\f$. Já o loop
 2-4, vai de \f$i + 1\f$ até \f$n\f$. Por conta de um loop estar dentro do outro, podemos representar isso
 matematicamente por um **somatório** duplo. Resolvemos ele a seguir:
 
@@ -93,7 +93,7 @@ elementos:
 \end{equation*}
 \f]
 
-Portanto, ao aplicarmos o notação assintódica nessa equação, chegamos em \f$\Theta(n^2)\f$.
+Portanto, ao aplicarmos o notação assintótica nessa equação, chegamos em \f$\Theta(n^2)\f$.
 */
 void bubble_sort(ListView *list)
 {
