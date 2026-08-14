@@ -18,9 +18,6 @@
 
 #include "view.h"
 
-// TODO: Utilizar uma **composição de structs** para criar um ListView. O struct
-// List passa a ser um ListView + capacity
-
 /** Generic Dynamic Allocated List.
  * The implemantation is using a **compositive** approach: ListView plus the
  * capacity.
