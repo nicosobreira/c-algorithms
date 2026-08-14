@@ -2,10 +2,13 @@
 
 #include <stdbool.h>
 
-#include "ds/list/core.h"
+#include "ds/list/view.h"
 
-void merge_sort(List *list);
+// TODO: Será que faz sentido passar essas `List` por valor (ao invés de usar
+// ponteiros)? A minha tese é que isso melhoria a localidade na memória.
 
-void insertion_sort(List *list);
+void merge_sort(ListView *list);
 
-void bubble_sort(List *list);
+void insertion_sort(ListView *list);
+
+void bubble_sort(ListView *list);

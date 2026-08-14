@@ -1,6 +1,6 @@
 #include "algo/sort.h"
 
-#include "ds/list/core.h"
+#include "ds/list/view.h"
 
 /**
 # Bubble Sort
@@ -95,20 +95,20 @@ elementos:
 
 Portanto, ao aplicarmos o notação assintódica nessa equação, chegamos em \f$\Theta(n^2)\f$.
 */
-void bubble_sort(List *list)
+void bubble_sort(ListView *list)
 {
-    const size_t last_index = List_Size(list) - 1;
+    const size_t last_index = ListView_Size(list) - 1;
 
     for (size_t i = 0; i < last_index; ++i)
     {
-        for (size_t j = last_index; j >= i + 1; --j) // downto
+        for (size_t j = last_index; j >= i + 1; --j) // down to
         {
-            void *current = List_Get(list, j);
-            void *previous = List_Get(list, j - 1);
+            void *current = ListView_Get(list, j);
+            void *previous = ListView_Get(list, j - 1);
 
-            if (List_Compare_Less(list, current, previous))
+            if (ListView_Compare_Less(list, current, previous))
             {
-                List_Swap(list, j, j - 1);
+                ListView_Swap(list, j, j - 1);
             }
         }
     }

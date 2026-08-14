@@ -19,7 +19,7 @@ static void test_element_dont_exist(void)
     int array[] = {1, 2, 3};
     List list = List_Load_int(array, 3);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_FALSE(SearchResult_Check(&sr));
 }
@@ -31,7 +31,7 @@ static void test_element_dont_exist_between(void)
     int array[] = {1, 3, 5, 8, 9};
     List list = List_Load_int(array, 5);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_FALSE(SearchResult_Check(&sr));
 }
@@ -44,7 +44,7 @@ static void test_top_success(void)
     int array[] = {1, 3, 5, 8, search};
     List list = List_Load_int(array, 5);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_TRUE(SearchResult_Check(&sr));
 
@@ -64,7 +64,7 @@ static void test_mid_success(void)
     int array[] = {1, 3, search, 8, 9};
     List list = List_Load_int(array, 5);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_TRUE(SearchResult_Check(&sr));
 
@@ -84,7 +84,7 @@ static void test_bottom_success(void)
     int array[] = {1, 3, 5, 8, 9};
     List list = List_Load_int(array, 5);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_TRUE(SearchResult_Check(&sr));
 
@@ -104,7 +104,7 @@ static void test_single_element_success(void)
     int array[] = {search};
     List list = List_Load_int(array, 1);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_TRUE(SearchResult_Check(&sr));
 
@@ -123,7 +123,7 @@ static void test_single_element_failure(void)
     int array[] = {1};
     List list = List_Load_int(array, 1);
 
-    SearchResult sr = binary_search(&list, &search);
+    SearchResult sr = binary_search(List_View(&list), &search);
 
     TEST_ASSERT_FALSE(SearchResult_Check(&sr));
 

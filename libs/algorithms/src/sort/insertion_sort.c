@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ds/list/core.h"
+#include "ds/list/view.h"
 
 /** Insertion Sort Loop Invariant
 For Loop:
@@ -22,21 +22,21 @@ list[i..j]. Then we make list[i] = key. In case none of those conditions are tru
 
 When j = n - 1, the subarray list[0..n - 1], that is the entire array list, is sorted.
 */
-void insertion_sort(List *list)
+void insertion_sort(ListView *list)
 {
-    for (size_t j = 1; j < List_Size(list); ++j)
+    for (size_t j = 1; j < ListView_Size(list); ++j)
     {
-        void *key = List_GetCopy(list, j);
+        void *key = ListView_GetCopy(list, j);
 
         size_t i = j;
-        while (i > 0 && List_Compare_Less(list, key, List_Get(list, i - 1)))
+        while (i > 0 && ListView_Compare_Less(list, key, ListView_Get(list, i - 1)))
         {
-            List_Set(list, i, List_Get(list, i - 1));
+            ListView_Set(list, i, ListView_Get(list, i - 1));
 
             i -= 1;
         }
 
-        List_Set(list, i, key);
+        ListView_Set(list, i, key);
 
         free(key);
     }

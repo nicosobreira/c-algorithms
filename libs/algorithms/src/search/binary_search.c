@@ -2,9 +2,9 @@
 
 #include "result.h"
 
-SearchResult binary_search(const List *list, const void *value)
+SearchResult binary_search(const ListView *list, const void *value)
 {
-    size_t size = List_Size(list);
+    size_t size = ListView_Size(list);
 
     if (size == 0)
     {
@@ -20,14 +20,14 @@ SearchResult binary_search(const List *list, const void *value)
 
         // if `start + end` is even, the division is floored
         size_t mid = start + ((end - start) / 2);
-        void *mid_value = List_Get(list, mid);
+        void *mid_value = ListView_Get(list, mid);
 
-        if (List_Compare_Equals(list, value, mid_value))
+        if (ListView_Compare_Equals(list, value, mid_value))
         {
             return SearchResult_Found(mid, mid_value);
         }
 
-        if (List_Compare_Less(list, value, mid_value))
+        if (ListView_Compare_Less(list, value, mid_value))
         {
             end = mid - 1;
         }

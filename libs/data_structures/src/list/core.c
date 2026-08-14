@@ -61,7 +61,7 @@ List List_Load(const void *array, size_t size, size_t data_size, Compare compare
     return new;
 }
 
-List List_LoadSlice(const ListView *view, size_t start_index, size_t end_index)
+List ListView_LoadSlice(const ListView *view, size_t start_index, size_t end_index)
 {
     ASSERT(start_index <= end_index, "start should be less or equal to end");
 
@@ -77,7 +77,7 @@ List List_LoadSlice(const ListView *view, size_t start_index, size_t end_index)
     return new;
 }
 
-ListView List_NewSlice(const ListView *view, size_t start_index, size_t end_index)
+ListView ListView_NewSlice(const ListView *view, size_t start_index, size_t end_index)
 {
     ASSERT(start_index <= end_index, "start should be less or equal to end");
 

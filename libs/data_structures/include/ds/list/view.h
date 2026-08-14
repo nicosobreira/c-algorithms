@@ -1,3 +1,13 @@
+/** @file
+ * Generic List View.
+ *
+ * Use this module if you code **doesn't** do any memory related operations on a
+ * List, like pushing (@ref List_Push) or popping (@ref List_Pop) an element, as
+ * well as allocating or freeing the List.
+ *
+ * @note Prefer using the family of function `ListView_`, avoid accessing the List members.
+ */
+
 #pragma once
 
 #include <stdbool.h>

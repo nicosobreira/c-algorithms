@@ -8,19 +8,19 @@
 /** Why this algorithm takes O(n lg n) on worst case?
 Sorting the array with merge sort takes O(n lg n) and finding a valid pair takes O(n).
  */
-bool has_two_sum(const List *list, const void *sum, void *(sum_func)(const void *, const void *))
+bool has_two_sum(const ListView *list, const void *sum, void *(sum_func)(const void *, const void *))
 {
-    if (List_Size(list) == 0)
+    if (ListView_Size(list) == 0)
     {
         return false;
     }
 
     size_t start = 0;
-    size_t end = List_Size(list) - 1;
+    size_t end = ListView_Size(list) - 1;
 
-    List copy = List_LoadSlice(list, start, end);
+    List copy = ListView_LoadSlice(list, start, end);
 
-    merge_sort(&copy);
+    merge_sort(List_View(&copy));
 
     while (start < end)
     {

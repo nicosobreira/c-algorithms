@@ -38,9 +38,9 @@ typedef struct List
  * As an example, for the function `void my_sort(ListView self)` you would pass
  * `sort(List_View(my_list))`.
  */
-static inline ListView List_View(const List *self)
+static inline ListView *List_View(List *self)
 {
-    return self->view;
+    return &self->view;
 }
 
 /** Return ListView.size.
@@ -105,6 +105,8 @@ List List_WithCapacity(size_t capacity, size_t data_size, Compare compare);
  */
 List List_Load(const void *array, size_t size, size_t data_size, Compare compare);
 
+// FIX: A onde eu coloco `ListView_LoadSlice`?
+
 /** New list slice copy in the range of indexes.
  * Each element from list start_index until end_index is **copied** into the new list.
  * Both the List.data_size and List.compare are copied.
@@ -121,7 +123,14 @@ List List_Load(const void *array, size_t size, size_t data_size, Compare compare
  * @warning If `start_index` is out of bounds, the program is aborted.
  * @warning If `end_index` is out of bounds, the program is aborted.
  */
-List List_LoadSlice(const ListView *view, size_t start_index, size_t end_index);
+List ListView_LoadSlice(const ListView *view, size_t start_index, size_t end_index);
+
+// FIX: Erro de List_View ignorando o const
+
+static inline List List_LoadSlice(const List *list, size_t start_index, size_t end_index)
+{
+    return ListView_LoadSlice(List_View(list), start_index, end_index);
+}
 
 /** New list slice view in the range of indexes.
  *
@@ -132,7 +141,12 @@ List List_LoadSlice(const ListView *view, size_t start_index, size_t end_index);
  * @warning If `start_index` is out of bounds, the program is aborted.
  * @warning If `end_index` is out of bounds, the program is aborted.
  */
-ListView List_NewSlice(const ListView *view, size_t start_index, size_t end_index);
+ListView ListView_NewSlice(const ListView *view, size_t start_index, size_t end_index);
+
+static inline ListView List_NewSlice(const List *list, size_t start_index, size_t end_index)
+{
+    return ListView_NewSlice(List_View(list), start_index, end_index);
+}
 
 static inline void *List_Get(const List *self, size_t index)
 {
