@@ -31,17 +31,24 @@ typedef struct List
     size_t capacity; /**< Total of elements **allocated**. @note Can be greater then ListView.size */
 } List;
 
+static inline ListView *List_View_mut(List *self)
+{
+    return &self->view;
+}
+
+static inline const ListView *List_View_const(const List *self)
+{
+    return &self->view;
+}
+
 /** Return List.view
- * Use this function when you need to pass a List.view as a parameter to another
+ * Use this macro when you need to pass a List.view as a parameter to another
  * function that excepts a ListView.
  *
  * As an example, for the function `void my_sort(ListView self)` you would pass
  * `sort(List_View(my_list))`.
  */
-static inline ListView *List_View(List *self)
-{
-    return &self->view;
-}
+#define List_View(self) _Generic((self), List *: List_View_mut, const List *: List_View_const)(self)
 
 /** Return ListView.size.
  */
