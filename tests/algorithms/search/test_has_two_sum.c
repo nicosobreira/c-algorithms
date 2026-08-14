@@ -30,7 +30,7 @@ static void test_success(void)
     List list = List_Load_int(array, 4);
 
     int sum = 5;
-    bool result = has_two_sum(List_View(&list), (void *)(&sum), sum_func_int);
+    bool result = has_two_sum(LIST_VIEW(&list), (void *)(&sum), sum_func_int);
 
     TEST_ASSERT_TRUE(result);
 }
@@ -41,7 +41,7 @@ static void test_dont_exist(void)
     List list = List_Load_int(array, 4);
 
     int sum = 99;
-    bool result = has_two_sum(List_View(&list), (void *)(&sum), sum_func_int);
+    bool result = has_two_sum(LIST_VIEW(&list), (void *)(&sum), sum_func_int);
 
     TEST_ASSERT_FALSE(result);
 }
@@ -52,7 +52,7 @@ static void test_same_number_fails(void)
     List list = List_Load_int(array, 4);
 
     int sum = 8;
-    bool result = has_two_sum(List_View(&list), (void *)(&sum), sum_func_int);
+    bool result = has_two_sum(LIST_VIEW(&list), (void *)(&sum), sum_func_int);
 
     TEST_ASSERT_FALSE(result);
 }

@@ -20,7 +20,7 @@ bool has_two_sum(const ListView *list, const void *sum, void *(sum_func)(const v
 
     List copy = ListView_LoadSlice(list, start, end);
 
-    merge_sort(List_View(&copy));
+    merge_sort(LIST_VIEW(&copy));
 
     while (start < end)
     {

@@ -17,7 +17,7 @@ static void test_single_element(void)
     int array[] = {1};
     List list = List_Load_int(array, 1);
 
-    insertion_sort(List_View(&list));
+    insertion_sort(LIST_VIEW(&list));
 
     TEST_ASSERT_EQUAL_INT_ARRAY(array, List_Ptr(&list), 1);
 
@@ -29,7 +29,7 @@ static void test_general_case(void)
     int array[] = {3, 2, 1};
     List list = List_Load_int(array, 3);
 
-    insertion_sort(List_View(&list));
+    insertion_sort(LIST_VIEW(&list));
 
     int expected[] = {1, 2, 3};
 

@@ -45,7 +45,7 @@ static inline const ListView *List_View_const(const List *self)
  * As an example, for the function `void my_sort(ListView self)` you would pass
  * `sort(List_View(my_list))`.
  */
-#define List_View(self) _Generic((self), List *: List_View_mut, const List *: List_View_const)(self)
+#define LIST_VIEW(self) _Generic((self), List *: List_View_mut, const List *: List_View_const)(self)
 
 /** Return ListView.size.
  */
@@ -133,7 +133,7 @@ List ListView_LoadSlice(const ListView *view, size_t start_index, size_t end_ind
 
 static inline List List_LoadSlice(const List *list, size_t start_index, size_t end_index)
 {
-    return ListView_LoadSlice(List_View(list), start_index, end_index);
+    return ListView_LoadSlice(LIST_VIEW(list), start_index, end_index);
 }
 
 /** New list slice view in the range of indexes.
@@ -149,7 +149,7 @@ ListView ListView_NewSlice(const ListView *view, size_t start_index, size_t end_
 
 static inline ListView List_NewSlice(const List *list, size_t start_index, size_t end_index)
 {
-    return ListView_NewSlice(List_View(list), start_index, end_index);
+    return ListView_NewSlice(LIST_VIEW(list), start_index, end_index);
 }
 
 static inline void *List_Get(const List *self, size_t index)
