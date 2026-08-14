@@ -33,7 +33,7 @@ typedef struct List
 
 /** Return List.view
  * Use this function when you need to pass a List.view as a parameter to another
- * function.
+ * function that excepts a ListView.
  *
  * As an example, for the function `void my_sort(ListView self)` you would pass
  * `sort(List_View(my_list))`.
