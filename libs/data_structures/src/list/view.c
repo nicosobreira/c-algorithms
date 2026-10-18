@@ -10,9 +10,10 @@
 
 #include "unsafe.h"
 
-ListView ListView_New(void *ptr, size_t data_size, size_t size, Compare compare)
+ListView ListView_New(void *ptr, size_t data_size, size_t size, Compare compare, Operations operations)
 {
     return (ListView){
+        .operations = operations,
         .compare = compare,
         .data_size = data_size,
         .size = size,

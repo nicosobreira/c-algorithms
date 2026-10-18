@@ -2,6 +2,7 @@
 
 #include <stddef.h>
 
+#include "ds/list/compare.h"
 #include "ds/list/core.h"
 #include "ds/list/view.h"
 

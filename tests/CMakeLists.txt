@@ -12,20 +12,23 @@ if(TARGET unity)
   set_target_properties(unity PROPERTIES C_CLANG_TIDY "")
 endif()
 
-function(add_unit_test lib name file)
-  add_executable(${name} "${lib}/${file}")
+function(add_unit_test lib file)
+  get_filename_component(name ${file} NAME_WE)
+
+  add_executable(${name} ${file})
   target_link_libraries(${name} PRIVATE ${lib} unity project_flags)
   add_test(NAME ${name} COMMAND ${name})
 endfunction()
 
-add_unit_test(compare test_compare test_compare.c)
+file(GLOB_RECURSE TEST_FILES CONFIGURE_DEPENDS
+  ${CMAKE_CURRENT_SOURCE_DIR}/*/test_*.c
+)
 
-add_unit_test(data_structures test_list test_list.c)
+foreach(test_file ${TEST_FILES})
+  file(RELATIVE_PATH rel_path ${CMAKE_CURRENT_SOURCE_DIR} ${test_file})
 
-add_unit_test(algorithms test_insertion_sort sort/test_insertion_sort.c)
+  string(FIND ${rel_path} "/" first_slash)
+  string(SUBSTRING ${rel_path} 0 ${first_slash} lib)
 
-add_unit_test(algorithms test_bubble_sort sort/test_bubble_sort.c)
-
-add_unit_test(algorithms test_binary_search search/test_binary_search.c)
-
-add_unit_test(algorithms test_has_two_sum search/test_has_two_sum.c)
+  add_unit_test(${lib} ${test_file})
+endforeach()

@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 #include "algo/sort.h"
+
+#include "ds/list/compare.h"
 #include "ds/list/core.h"
 
 /** Why this algorithm takes O(n lg n) on worst case?

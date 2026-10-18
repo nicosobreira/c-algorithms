@@ -1,5 +1,6 @@
 #include "algo/sort.h"
 
+#include "ds/list/compare.h"
 #include "ds/list/view.h"
 
 /**

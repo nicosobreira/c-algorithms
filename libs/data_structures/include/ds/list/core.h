@@ -43,7 +43,7 @@ static inline const ListView *List_View_const(const List *self)
  * function that excepts a ListView.
  *
  * As an example, for the function `void my_sort(ListView self)` you would pass
- * `sort(List_View(my_list))`.
+ * `sort(LIST_VIEW(my_list))`.
  */
 #define LIST_VIEW(self) _Generic((self), List *: List_View_mut, const List *: List_View_const)(self)
 
@@ -76,7 +76,7 @@ static inline bool List_IsEmpty(const List *self)
  *
  * @warning If memory allocation fails, the program is aborted (no `NULL` return).
  */
-List List_New(size_t size, size_t data_size, Compare compare);
+List List_New(size_t size, size_t data_size, Compare compare, Operations operations);
 
 /** Free an List.
  * The List.ptr is set to `NULL`.
@@ -94,7 +94,7 @@ void List_Free(List *self);
  * @param[in] compare Functions for making comparison between elements
  *                    (see @ref Compare for creating your own).
  */
-List List_WithCapacity(size_t capacity, size_t data_size, Compare compare);
+List List_WithCapacity(size_t capacity, size_t data_size, Compare compare, Operations operations);
 
 // TODO: See if it makes sense to move List_Load to ListView.
 
@@ -107,7 +107,7 @@ List List_WithCapacity(size_t capacity, size_t data_size, Compare compare);
  * @param[in] compare Functions for making comparison between elements
  *                    (see @ref Compare for creating your own).
  */
-List List_Load(const void *array, size_t size, size_t data_size, Compare compare);
+List List_Load(const void *array, size_t size, size_t data_size, Compare compare, Operations operations);
 
 // FIX: A onde eu coloco `ListView_LoadSlice`?
 
@@ -192,21 +192,4 @@ void List_Push(List *self, void *value);
 static inline void List_Pop(List *self)
 {
     ListView_Pop(&self->view);
-}
-
-// ------------------------------------------------------------
-
-static inline bool List_Compare_Equals(const List *self, const void *a, const void *b)
-{
-    return ListView_Compare_Equals(&self->view, a, b);
-}
-
-static inline bool List_Compare_Less(const List *self, const void *a, const void *b)
-{
-    return ListView_Compare_Less(&self->view, a, b);
-}
-
-static inline bool List_Compare_Greater(const List *self, const void *a, const void *b)
-{
-    return ListView_Compare_Greater(&self->view, a, b);
 }

@@ -16,14 +16,14 @@ static void List_Resize(List *self, size_t resize)
     self->view.ptr = new;
 }
 
-List List_New(size_t size, size_t data_size, Compare compare)
+List List_New(size_t size, size_t data_size, Compare compare, Operations operations)
 {
     ASSERT(size > 0, "The list must have a size");
     ASSERT(data_size > 0, "The list must have a data size");
 
     void *ptr = must_malloc(data_size * size);
 
-    return (List){.view = ListView_New(ptr, data_size, size, compare), .capacity = size};
+    return (List){.view = ListView_New(ptr, data_size, size, compare, operations), .capacity = size};
 }
 
 void List_Free(List *self)
@@ -35,7 +35,7 @@ void List_Free(List *self)
     self->capacity = 0;
 }
 
-List List_WithCapacity(size_t capacity, size_t data_size, Compare compare)
+List List_WithCapacity(size_t capacity, size_t data_size, Compare compare, Operations operations)
 {
     ASSERT(capacity > 0, "The list must have a capacity");
     ASSERT(data_size > 0, "The list must have a data size");
@@ -43,15 +43,15 @@ List List_WithCapacity(size_t capacity, size_t data_size, Compare compare)
     const size_t size = 0;
     void *ptr = must_malloc(data_size * capacity);
 
-    return (List){.view = ListView_New(ptr, data_size, size, compare)};
+    return (List){.view = ListView_New(ptr, data_size, size, compare, operations), .capacity = size};
 }
 
-List List_Load(const void *array, size_t size, size_t data_size, Compare compare)
+List List_Load(const void *array, size_t size, size_t data_size, Compare compare, Operations operations)
 {
     ASSERT(size > 0, "The list must have a size");
     ASSERT(data_size > 0, "The list must have a data size");
 
-    List new = List_New(size, data_size, compare);
+    List new = List_New(size, data_size, compare, operations);
 
     for (size_t i = 0; i < size; ++i)
     {
@@ -72,7 +72,7 @@ List ListView_LoadSlice(const ListView *view, size_t start_index, size_t end_ind
 
     size_t new_size = end_index - start_index + 1;
 
-    List new = List_Load(new_start, new_size, view->data_size, view->compare);
+    List new = List_Load(new_start, new_size, view->data_size, view->compare, view->operations);
 
     return new;
 }
@@ -88,7 +88,7 @@ ListView ListView_NewSlice(const ListView *view, size_t start_index, size_t end_
 
     size_t new_size = end_index - start_index + 1;
 
-    return ListView_New(new_ptr, view->data_size, new_size, view->compare);
+    return ListView_New(new_ptr, view->data_size, new_size, view->compare, view->operations);
 }
 
 void List_Push(List *self, void *value)

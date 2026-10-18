@@ -2,6 +2,8 @@
 
 #include "result.h"
 
+#include "ds/list/compare.h"
+
 SearchResult binary_search(const ListView *list, const void *value)
 {
     size_t size = ListView_Size(list);

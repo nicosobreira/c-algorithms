@@ -6,31 +6,37 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-  }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
 
         toolchain = pkgs.llvmPackages_latest;
-      in {
+      in
+      {
         devShells.default =
-          pkgs.mkShell.override {
-            stdenv = toolchain.stdenv;
-          } {
-            nativeBuildInputs = with pkgs; [
-              cmake
-              ninja
-              cmake-language-server
+          pkgs.mkShell.override
+            {
+              stdenv = toolchain.stdenv;
+            }
+            {
+              nativeBuildInputs = with pkgs; [
+                cmake
+                ninja
+                cmake-language-server
+                cmake-format
 
-              toolchain.clang-tools
+                toolchain.clang-tools
 
-              doxygen
-            ];
-          };
+                doxygen
+              ];
+            };
       }
     );
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ds/list/compare.h"
 #include "ds/list/view.h"
 
 /** Insertion Sort Loop Invariant

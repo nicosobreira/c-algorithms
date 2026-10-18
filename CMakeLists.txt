@@ -51,8 +51,12 @@ endif()
 
 # =============================================================================
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(AddProjectLibrary)
+
 add_subdirectory(libs/utils)
 add_subdirectory(libs/compare)
+add_subdirectory(libs/operations)
 
 add_subdirectory(libs/data_structures)
 add_subdirectory(libs/algorithms)
