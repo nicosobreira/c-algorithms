@@ -32,15 +32,15 @@ Other presets: `analyse` (builds with clang-tidy) and `ship` (Release). Document
 ```
 .
 ├── libs
-│   ├── algorithms/         # Sort, search and optimize algorithms
+│   ├── algorithms/         # Sort and search algorithms
 │   ├── data_structures/    # List and ListView
 │   ├── compare/            # Generic comparison (Compare, CompareFunc)
 │   ├── operations/         # Generic arithmetic (add, subtract, multiply, divide)
 │   └── utils/              # Assertions, checked allocation, memory helpers
 ├── tests/                  # Unit tests (Unity), one folder per library
-├── examples/               # Small example programs
-├── cmake/                  # CMake helpers
-└── tools/                  # Helper scripts (run.sh)
+├── examples/
+├── cmake/
+└── tools/
 ```
 
 ## AI usage
