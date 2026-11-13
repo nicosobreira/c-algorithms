@@ -29,7 +29,7 @@ target_compile_options(project_flags INTERFACE
     -Wfloat-conversion
     -Wnull-dereference
     -Wimplicit-fallthrough
-    $<$<CONFIG:Debug>:-g>
+    $<$<CONFIG:Debug>:-g -O0>
     $<$<CONFIG:RelWithDebInfo>:-O3;-g;-fno-omit-frame-pointer>
   >
 
