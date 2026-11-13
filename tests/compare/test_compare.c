@@ -130,9 +130,9 @@ static void test_compare_greater_equals(void)
     int a = 8;
     int b = 3;
 
-    TEST_ASSERT_TRUE(Compare_GreaterEquals(&compare, &a, &b));
-    TEST_ASSERT_TRUE(Compare_GreaterEquals(&compare, &a, &a));
-    TEST_ASSERT_FALSE(Compare_GreaterEquals(&compare, &b, &a));
+    TEST_ASSERT_TRUE(Compare_GreaterEqual(&compare, &a, &b));
+    TEST_ASSERT_TRUE(Compare_GreaterEqual(&compare, &a, &a));
+    TEST_ASSERT_FALSE(Compare_GreaterEqual(&compare, &b, &a));
 }
 
 int main(void)

@@ -25,7 +25,7 @@ bool Compare_NotEqual(const Compare *self, const void *a, const void *b)
     return (bool)!Compare_Equals(self, a, b);
 }
 
-bool Compare_GreaterEquals(const Compare *self, const void *a, const void *b)
+bool Compare_GreaterEqual(const Compare *self, const void *a, const void *b)
 {
     return (bool)!Compare_Less(self, a, b);
 }
